@@ -1,43 +1,29 @@
 <script setup>
     import { reactive } from 'vue';
+
     const valores = reactive({
-        primeiroValor:' ',
-        segundoValor:' ',
-        operacao:'todas',
-        resultado:' ',
+        primeiroValor: 0,
+        segundoValor: 0,
+        operacao: 'todas',
     })
 
-    const getOperacaoSoma = () => {
-        valores.resultado = valores.primeiroValor + valores.segundoValor
-    }
-
-    const getOperacaoSubtracao = () => {
-        valores.resultado = valores.primeiroValor - valores.segundoValor
-    } 
-
-    const getOperacaoMultiplicacao = () => {
-        valores.resultado = valores.primeiroValor * valores.segundoValor
-    }
-
-    const getOperacaoDivisao = () => {
-        valores.resultado = valores.primeiroValor / valores.segundoValor
-    }
-
-    const getOperacao = () => {
+    function resultado(){
         const operacao = valores.operacao;
-        switch (operacao) {
+        switch(operacao){
             case 'soma':
-                return getOperacaoSoma();
+                return Number(valores.primeiroValor) + Number(valores.segundoValor);
             case 'subtracao':
-                return getOperacaoSubtracao();
+                return valores.primeiroValor - valores.segundoValor;
             case 'multiplicacao':
-                return getOperacaoMultiplicacao();
+                return valores.primeiroValor * valores.segundoValor;
             case 'divisao':
-                return getOperacaoDivisao();
+                return valores.primeiroValor / valores.segundoValor;
             default:
-                return valores.resultado;
+                return 0;
         }
     }
+
+    
 </script>
 
 <template>
@@ -48,7 +34,7 @@
         <form>
             <div class="row">
                 <div class="col-md-4">
-                    <input :value="valores.primeiroValor" @change="evento => valores.primeiroValor = evento.target.value " type="number" placeholder="Digite aqui um valor" class="form-control" id="primeiro-valor"/>
+                    <input @keyup="evento => valores.primeiroValor = evento.target.value" type="number" placeholder="Digite aqui um valor" class="form-control" id="primeiro-valor"/>
                 </div>
                 <div class="col-md-4">
                     <select @change="evento => valores.operacao = evento.target.value" class="form-control">
@@ -60,18 +46,25 @@
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <input :value="valores.segundoValor" @change="evento => valores.segundoValor = evento.target.value " type="number" placeholder="Digite aqui mais um valor" class="form-control" id="segundo-valor"/>
+                    <input @keyup="evento => valores.segundoValor = evento.target.value" type="number" placeholder="Digite aqui mais um valor" class="form-control" id="segundo-valor"/>
                 </div>
             </div>
         </form>
-        <div class="col-md-12">
-          <span @change="evento => valores.resultado = evento.target.value"> {{ valores.resultado }} </span>
-        </div>
+        
+        <br>
+        <hr>
+        <h2>primeiro valor: {{ valores.primeiroValor }}</h2>
+
+        <br>
+        <h2>segundo valor: {{ valores.segundoValor }}</h2>
+
+        <br>
+        <h2>resultado: {{ resultado() }}</h2>
     </div>
 </template>
 
 <style scoped>
-    input, select, span{
+    input, select, p{
         text-align: center;
         width:400px;
         font-size: 40px;
